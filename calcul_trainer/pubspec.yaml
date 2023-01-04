@@ -64,6 +64,7 @@ flutter:
     - lib/Icons/sub.png
     - lib/Icons/add.png
     - lib/Icons/rdm.png
+    - lib/Icons/Hands_gesture.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

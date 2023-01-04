@@ -37,16 +37,24 @@ class _MyHomePageState extends State<MyHomePage> {
             // Hello
             children: [
               Container(
-                margin: const EdgeInsets.only(left: 25.0),
+                margin: const EdgeInsets.only(left: 25.0, bottom: 25),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const <Widget>[
-                    Text(
-                      'Hello',
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  children: [
+                    Row(
+                      children: [
+                        const Text(
+                          'Hello',
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(left: 5.0),
+                          child: Image.asset('lib/Icons/Hands_gesture.png'),
+                        )
+                      ],
                     ),
-                    Text(
+                    const Text(
                       'What do you want to train on ?',
                     ),
                   ],
