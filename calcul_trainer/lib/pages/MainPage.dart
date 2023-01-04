@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+//import icon
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -29,12 +30,14 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Row(
             // Hello
             children: [
               Container(
-                margin: const EdgeInsets.only(left: 25.0, top: 50.0),
+                margin: const EdgeInsets.only(left: 25.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const <Widget>[
@@ -51,11 +54,79 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             ],
           ),
-          Row(),
-          Row(),
-          Row(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: const <Card_Pages>[
+              Card_Pages("Addition", "lib/Icons/add.png", 1),
+              Card_Pages("Substraction", "lib/Icons/sub.png", 1),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: const <Card_Pages>[
+              Card_Pages("Multiplication", "lib/Icons/mult.png", 1),
+              Card_Pages("Division", "lib/Icons/div.png", 1),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: const <Card_Pages>[
+              Card_Pages("Random", "lib/Icons/rdm.png", 2),
+            ],
+          ),
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class Card_Pages extends StatefulWidget {
+  const Card_Pages(this.id, this.symbol, this.unitSize);
+
+  final String id;
+  final String symbol;
+  final int unitSize;
+
+  @override
+  _Card_PagesState createState() =>
+      _Card_PagesState(this.id, this.symbol, this.unitSize);
+}
+
+class _Card_PagesState extends State<Card_Pages> {
+  _Card_PagesState(this.id, this.symbol, this.unitSize);
+  final String id;
+  final String symbol;
+  final int unitSize;
+
+  double w = 160;
+  @override
+  Widget build(BuildContext context) {
+    if (unitSize == 2) {
+      w = 320 + (MediaQuery.of(context).size.width - 320) / 3;
+    }
+
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+      margin: const EdgeInsets.only(top: 25),
+      color: const Color(0xF5F5F5F5),
+      elevation: 0,
+      child: Container(
+        height: 150,
+        width: w,
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Image.asset(symbol),
+          Container(
+            height: 20,
+          ),
+          Text(
+            id,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ]),
+      ),
     );
   }
 }
