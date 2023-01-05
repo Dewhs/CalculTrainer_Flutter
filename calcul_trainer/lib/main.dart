@@ -1,3 +1,4 @@
+import 'package:calcul_trainer/pages/CalculPage.dart';
 import 'package:flutter/material.dart';
 import 'pages/MainPage.dart';
 
@@ -13,7 +14,9 @@ class MyApp extends StatelessWidget {
       title: 'Calcul Trainer',
       theme: ThemeData.light(),
       //darkTheme: ThemeData.dark(),
-      home: const MyHomePage(title: 'Home'),
+      initialRoute: MyHomePage.pageRoute, routes: {
+        MyHomePage.pageRoute: (context) => const MyHomePage(title: "Home"),
+      },
     );
   }
 }
