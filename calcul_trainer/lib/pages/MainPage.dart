@@ -98,7 +98,7 @@ class _Card_PagesState extends State<Card_Pages> {
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         margin: const EdgeInsets.only(top: 25),
-        color: const Color(0xF5F5F5F5),
+        color: const Color.fromARGB(245, 240, 240, 240),
         elevation: 0,
         child: Container(
           height: 150,
