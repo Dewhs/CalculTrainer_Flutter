@@ -36,11 +36,11 @@ class _CalculPageState extends State<CalculPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        //mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            margin: const EdgeInsets.only(left: 25.0, bottom: 10),
+            margin: const EdgeInsets.only(top:50,left: 25.0, bottom: 10,),
             child: Row(
               children: [
                 Expanded(
@@ -107,7 +107,7 @@ class _CalculPageState extends State<CalculPage> {
             children: [
               GestureDetector(
                 child: Container(
-                  margin: const EdgeInsets.only(left: 10,top: 50,right: 10),
+                  margin: const EdgeInsets.only(left: 10, top: 50, right: 10),
                   width: 100,
                   height: 50,
                   decoration: const BoxDecoration(
@@ -117,15 +117,25 @@ class _CalculPageState extends State<CalculPage> {
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text('Finish',
-                        style: TextStyle(fontWeight: FontWeight.bold),),
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 5),
+                          child: Image.asset(
+                          'lib/Icons/finishFlag.png',
+                          width: 15,
+                        ),
+                        ),
+                        
+                        const Text(
+                          'Finish',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ]),
                 ),
               ),
               GestureDetector(
                 child: Container(
-                  margin: const EdgeInsets.only(left: 10,top: 50,right: 10),
+                  margin: const EdgeInsets.only(left: 10, top: 50, right: 10),
                   width: 100,
                   height: 50,
                   decoration: const BoxDecoration(
@@ -135,9 +145,19 @@ class _CalculPageState extends State<CalculPage> {
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text('Next',
-                        style: TextStyle(fontWeight: FontWeight.bold),),
+                      children: [
+                        const Text(
+                          'Next',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(),
+                          child: Image.asset(
+                          'lib/Icons/rightArrow.png',
+                          width: 25,
+                        ),
+                        )
+                        
                       ]),
                 ),
               )
