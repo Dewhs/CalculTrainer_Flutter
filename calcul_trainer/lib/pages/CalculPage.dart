@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
@@ -7,6 +5,8 @@ import 'dart:math';
 // --- global ---
 int number1 = 0;
 int number2 = 0;
+int nbCalculTotal = 0;
+int nbCalculValidate = 0;
 
 String id = "";
 String difficulty = "";
@@ -27,6 +27,11 @@ class _CalculPageState extends State<CalculPage> {
   final id;
   final String symbol;
   final difficulty = "Easy";
+
+  void actualiseWidget() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +39,46 @@ class _CalculPageState extends State<CalculPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          Container(
+            margin: const EdgeInsets.only(left: 25.0, bottom: 10),
+            child: Row(
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(
+                              top: 5, bottom: 5, right: 25),
+                          child: Text(
+                            '$nbCalculTotal Total',
+                            style: const TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(
+                              top: 5, bottom: 5, right: 25),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                '$nbCalculValidate ',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              Image.asset(
+                                'lib/Icons/validate.png',
+                                width: 25,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ))
+              ],
+            ),
+          ),
           Row(
             // Hello
             children: [
@@ -48,14 +93,56 @@ class _CalculPageState extends State<CalculPage> {
                           fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      'Level : ' + difficulty,
+                      'Level : $difficulty',
                     ),
                   ],
                 ),
               )
             ],
           ),
-          OperationWidget(id, difficulty),
+          OperationWidget(id, difficulty, actualiseWidget),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                child: Container(
+                  margin: const EdgeInsets.only(left: 10,top: 50,right: 10),
+                  width: 100,
+                  height: 50,
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(245, 240, 240, 240),
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                  ),
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text('Finish',
+                        style: TextStyle(fontWeight: FontWeight.bold),),
+                      ]),
+                ),
+              ),
+              GestureDetector(
+                child: Container(
+                  margin: const EdgeInsets.only(left: 10,top: 50,right: 10),
+                  width: 100,
+                  height: 50,
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 194, 255, 204),
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                  ),
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text('Next',
+                        style: TextStyle(fontWeight: FontWeight.bold),),
+                      ]),
+                ),
+              )
+            ],
+          ),
         ],
       ),
     );
@@ -63,21 +150,23 @@ class _CalculPageState extends State<CalculPage> {
 }
 
 class OperationWidget extends StatefulWidget {
-  const OperationWidget(this.id, this.difficulty);
+  const OperationWidget(this.id, this.difficulty, this.actualiseWidget);
+  final Function actualiseWidget;
 
   final String id;
   final String difficulty;
 
   @override
   _OperationWidgetState createState() =>
-      _OperationWidgetState(this.id, this.difficulty);
+      _OperationWidgetState(this.id, this.difficulty, this.actualiseWidget);
 }
 
 class _OperationWidgetState extends State<OperationWidget> {
-  _OperationWidgetState(this.id, this.difficulty);
+  _OperationWidgetState(this.id, this.difficulty, this.actualiseWidget);
   final id;
   final difficulty;
   final fieldText = TextEditingController();
+  final Function actualiseWidget;
   FocusNode _focusNode = FocusNode();
 
   void refreshOperation() {
@@ -134,11 +223,13 @@ class _OperationWidgetState extends State<OperationWidget> {
               autofocus: true,
               controller: fieldText,
               onSubmitted: (value) {
-                setState(() {                  
-                  Verify_Reslut(id, value);
+                setState(() {
+                  nbCalculTotal++;
+                  if (verifyReslut(id, value)) nbCalculValidate++;
                   _focusNode.requestFocus();
                   refreshOperation();
                   fieldText.clear();
+                  actualiseWidget();
                 });
               },
               textAlign: TextAlign.center,
@@ -161,18 +252,20 @@ class _OperationWidgetState extends State<OperationWidget> {
   }
 }
 
-bool Verify_Reslut(String id, String _value) {
-  if(_value == "") ()=> false;
-  
+bool verifyReslut(String id, String _value) {
+  if (_value == "") {
+    return false;
+  }
+
   int value = int.parse(_value);
-  
-    if (id == "Addition") {
-      print(Check_Add_Result(value));
-      return Check_Add_Result(value);
-    }
+
+  if (id == "Addition") {
+    print(checkAddResult(value));
+    return checkAddResult(value);
+  }
   return false;
 }
 
-bool Check_Add_Result(int value) {
+bool checkAddResult(int value) {
   return (number1 + number2) == value;
 }
