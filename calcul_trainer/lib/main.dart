@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
       title: 'Calcul Trainer',
       theme: ThemeData.light(),
       //darkTheme: ThemeData.dark(),
-      initialRoute: MyHomePage.pageRoute, routes: {
+      initialRoute: MyHomePage.pageRoute,
+      routes: {
         MyHomePage.pageRoute: (context) => const MyHomePage(title: "Home"),
       },
     );

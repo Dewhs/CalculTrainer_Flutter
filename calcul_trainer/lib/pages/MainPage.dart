@@ -1,5 +1,6 @@
 import 'package:calcul_trainer/pages/CalculPage.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 //import icon
 
 class MyHomePage extends StatelessWidget {
@@ -94,7 +95,12 @@ class _Card_PagesState extends State<Card_Pages> {
     }
 
     return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CalculPage(id, symbol))),
+      onTap: () => Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType.rightToLeft,
+              child: CalculPage(id, symbol))),
+      //onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CalculPage(id, symbol))),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         margin: const EdgeInsets.only(top: 25),
