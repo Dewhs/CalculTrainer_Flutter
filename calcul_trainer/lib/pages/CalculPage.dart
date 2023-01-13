@@ -40,7 +40,7 @@ class _CalculPageState extends State<CalculPage> {
     var rdm = Random();
     if (difficulty == "Easy") {
       number1 = rdm.nextInt(9);
-      number2 = rdm.nextInt(9);
+      number2 = 1 + rdm.nextInt(8);
     }
     if (difficulty == "Intermediate") {
       number1 = 10 + rdm.nextInt(89);
@@ -59,7 +59,6 @@ class _CalculPageState extends State<CalculPage> {
       _focusNode.requestFocus();
       refreshOperation();
       fieldText.clear();
-      fieldText.notifyListeners();
     });
   }
 
@@ -274,7 +273,7 @@ class SymbolWidget extends StatelessWidget {
       return SymbolWidget(id: operationId);
     }
 
-    return const Text('yo');
+    return const Text('is there a Little problem ?');
   }
 }
 
@@ -315,7 +314,11 @@ bool checkSubResult(int value) {
 }
 
 bool checkDivResult(double value) {
-  return (number1.toDouble() / number2.toDouble()) == value;
+  double result = number1.toDouble() / number2.toDouble();
+  result = (result*1000).round()/1000;
+  value = (value*1000).round()/1000;
+  
+  return result == value;
 }
 
 bool checkMultResult(int value) {
