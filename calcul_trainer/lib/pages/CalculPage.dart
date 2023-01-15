@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
+import 'dart:async';
 
 // --- global ---
 int number1 = 0;
@@ -12,6 +13,8 @@ String operationId = "";
 String difficulty = "";
 
 FocusNode _focusNode = FocusNode();
+const List<String> listDifficulty = <String>['Easy', 'Intermediate', 'Expert'];
+String dropdownValue = listDifficulty.first;
 
 class CalculPage extends StatefulWidget {
   static const pageRoute = "/CalculPage";
@@ -21,21 +24,33 @@ class CalculPage extends StatefulWidget {
   final String symbol;
 
   @override
-  _CalculPageState createState() => _CalculPageState(this.id, this.symbol);
+  CalculPageState createState() => CalculPageState(this.id, this.symbol);
 }
 
-class _CalculPageState extends State<CalculPage> {
-  _CalculPageState(this.id, this.symbol) {
-    nbCalculTotal = 0;
-    nbCalculValidate = 0;
+class CalculPageState extends State<CalculPage> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  CalculPageState(this.id, this.symbol) {
+    Future<String> _difficulty = _prefs.then((SharedPreferences prefs) async {
+      try {
+        difficulty = prefs.getString('difficulty')!.toString();
+        return prefs.getString('difficulty')!;
+      } catch (e) {
+        print('getDifficulty : $e');
+        return 'Intermediate';
+      }
+    });
+    print("difficulty : $difficulty");
     operationId = id;
+    difficulty = dropdownValue;
     refreshOperation();
   }
+
   final id;
   final String symbol;
-  final difficulty = "Easy";
 
   final fieldText = TextEditingController();
+
   void refreshOperation() {
     var rdm = Random();
     if (difficulty == "Easy") {
@@ -54,12 +69,16 @@ class _CalculPageState extends State<CalculPage> {
 
   void actualiseWidget() {
     setState(() {
-      nbCalculTotal++;
-      if (verifyReslut(operationId, fieldText.text)) nbCalculValidate++;
       _focusNode.requestFocus();
       refreshOperation();
       fieldText.clear();
     });
+  }
+
+  void validateReply() {
+    nbCalculTotal++;
+    if (verifyReslut(operationId, fieldText.text)) nbCalculValidate++;
+    actualiseWidget();
   }
 
   @override
@@ -125,9 +144,39 @@ class _CalculPageState extends State<CalculPage> {
                       style: const TextStyle(
                           fontSize: 25, fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      'Level : $difficulty',
-                    ),
+                    Row(
+                      children: [
+                        const Text(
+                          'Level : ',
+                        ),
+                        DropdownButton<String>(
+                          value: dropdownValue,
+                          items: listDifficulty
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {
+                            setState(() {
+                              dropdownValue = value!;
+                              difficulty = dropdownValue;
+                              _prefs.then((SharedPreferences prefs) async {
+                                await prefs
+                                    .setString('difficulty', difficulty)
+                                    .catchError((e, st) {
+                                  print(e);
+                                });
+                              });
+                            });
+                            refreshOperation();
+                          },
+                          underline: Container(),
+                          borderRadius: BorderRadius.circular(15),
+                        )
+                      ],
+                    )
                   ],
                 ),
               )
@@ -166,15 +215,20 @@ class _CalculPageState extends State<CalculPage> {
                   focusNode: _focusNode,
                   autofocus: true,
                   controller: fieldText,
-                  onSubmitted: (value) => actualiseWidget(),
+                  onSubmitted: (value) => validateReply(),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                      fontSize: 35, fontWeight: FontWeight.bold),
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(top: 30.0),
-                    hintText: '?',
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
+                  decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.only(top: 30.0),
+                      hintText: '?',
+                      hintStyle: TextStyle(
+                        color: Colors.black,
+                      )),
                   keyboardType: TextInputType.number,
                 ),
               )
@@ -207,13 +261,16 @@ class _CalculPageState extends State<CalculPage> {
                         ),
                         const Text(
                           'Finish',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
                       ]),
                 ),
               ),
               GestureDetector(
-                onTap: () => actualiseWidget(),
+                onTap: () => validateReply(),
                 child: Container(
                   margin: const EdgeInsets.only(left: 10, top: 50, right: 10),
                   width: 100,
@@ -228,7 +285,10 @@ class _CalculPageState extends State<CalculPage> {
                       children: [
                         const Text(
                           'Next',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
                         Container(
                           margin: const EdgeInsets.only(),
@@ -315,9 +375,9 @@ bool checkSubResult(int value) {
 
 bool checkDivResult(double value) {
   double result = number1.toDouble() / number2.toDouble();
-  result = (result*1000).round()/1000;
-  value = (value*1000).round()/1000;
-  
+  result = (result * 1000).round() / 1000;
+  value = (value * 1000).round() / 1000;
+
   return result == value;
 }
 

@@ -22,19 +22,7 @@ class MyHomePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        const Text(
-                          'Hello',
-                          style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 5.0),
-                          child: Image.asset('lib/Icons/Hands_gesture.png'),
-                        )
-                      ],
-                    ),
+                    helloWidget,
                     const Text(
                       'What do you want to train on ?',
                     ),
@@ -45,22 +33,22 @@ class MyHomePage extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const <Card_Pages>[
-              Card_Pages("Addition", "lib/Icons/add.png", 1),
-              Card_Pages("Substraction", "lib/Icons/sub.png", 1),
+            children: const <CardPages>[
+              CardPages("Addition", "lib/Icons/add.png", 1),
+              CardPages("Substraction", "lib/Icons/sub.png", 1),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const <Card_Pages>[
-              Card_Pages("Multiplication", "lib/Icons/mult.png", 1),
-              Card_Pages("Division", "lib/Icons/div.png", 1),
+            children: const <CardPages>[
+              CardPages("Multiplication", "lib/Icons/mult.png", 1),
+              CardPages("Division", "lib/Icons/div.png", 1),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const <Card_Pages>[
-              Card_Pages("Random", "lib/Icons/rdm.png", 2),
+            children: const <CardPages>[
+              CardPages("Random", "lib/Icons/rdm.png", 2),
             ],
           ),
         ],
@@ -69,20 +57,20 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class Card_Pages extends StatefulWidget {
-  const Card_Pages(this.id, this.symbol, this.unitSize);
+class CardPages extends StatefulWidget {
+  const CardPages(this.id, this.symbol, this.unitSize);
 
   final String id;
   final String symbol;
   final int unitSize;
 
   @override
-  _Card_PagesState createState() =>
-      _Card_PagesState(this.id, this.symbol, this.unitSize);
+  CardPagesState createState() =>
+      CardPagesState(this.id, this.symbol, this.unitSize);
 }
 
-class _Card_PagesState extends State<Card_Pages> {
-  _Card_PagesState(this.id, this.symbol, this.unitSize);
+class CardPagesState extends State<CardPages> {
+  CardPagesState(this.id, this.symbol, this.unitSize);
   final String id;
   final String symbol;
   final int unitSize;
@@ -119,6 +107,7 @@ class _Card_PagesState extends State<Card_Pages> {
               style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
             ),
           ]),
@@ -127,3 +116,16 @@ class _Card_PagesState extends State<Card_Pages> {
     );
   }
 }
+
+Widget helloWidget = Row(
+  children: [
+    const Text(
+      'Hello',
+      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+    ),
+    Container(
+      margin: const EdgeInsets.only(left: 5.0),
+      child: Image.asset('lib/Icons/Hands_gesture.png'),
+    )
+  ],
+);
