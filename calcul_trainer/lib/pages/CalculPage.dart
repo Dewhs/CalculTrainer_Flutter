@@ -31,19 +31,10 @@ class CalculPageState extends State<CalculPage> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   CalculPageState(this.id, this.symbol) {
-    Future<String> _difficulty = _prefs.then((SharedPreferences prefs) async {
-      try {
-        difficulty = prefs.getString('difficulty')!.toString();
-        return prefs.getString('difficulty')!;
-      } catch (e) {
-        print('getDifficulty : $e');
-        return 'Intermediate';
-      }
-    });
-    print("difficulty : $difficulty");
+    dropdownValue = difficulty;
     operationId = id;
-    difficulty = dropdownValue;
     refreshOperation();
+    print("difficulty : $difficulty");
   }
 
   final id;

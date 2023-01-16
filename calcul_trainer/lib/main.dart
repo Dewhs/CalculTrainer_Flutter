@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       //darkTheme: ThemeData.dark(),
       initialRoute: MyHomePage.pageRoute,
       routes: {
-        MyHomePage.pageRoute: (context) => const MyHomePage(title: "Home"),
+        MyHomePage.pageRoute: (context) => MyHomePage(title: "Home"),
       },
     );
   }

@@ -1,12 +1,28 @@
 import 'package:calcul_trainer/pages/CalculPage.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 //import icon
 
 class MyHomePage extends StatelessWidget {
   static const pageRoute = "/";
-  const MyHomePage({super.key, required this.title});
+  MyHomePage({super.key, required this.title}) {
+    final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    Future<String> _difficulty = _prefs.then((SharedPreferences prefs) async {
+      try {
+        print(prefs.getString('difficulty')!.toString());
+        difficulty = prefs.getString('difficulty')!.toString();
+        return prefs.getString('difficulty')!;
+      } catch (e) {
+        print('getDifficulty : $e');
+        difficulty = listDifficulty.first;
+        return difficulty;
+      }
+    });
+  }
   final String title;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
