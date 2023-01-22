@@ -1,4 +1,4 @@
-import 'package:calcul_trainer/pages/CalculPage.dart';
+import 'package:calcul_trainer/View/CalculPage.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';

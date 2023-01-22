@@ -1,6 +1,6 @@
-import 'package:calcul_trainer/pages/CalculPage.dart';
+import 'package:calcul_trainer/View/CalculPage.dart';
 import 'package:flutter/material.dart';
-import 'pages/MainPage.dart';
+import 'View/MainPage.dart';
 
 void main() => runApp(const MyApp());
 

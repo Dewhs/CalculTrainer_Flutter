@@ -205,6 +205,7 @@ class CalculPageState extends State<CalculPage> {
                 child: TextField(
                   focusNode: _focusNode,
                   autofocus: true,
+                  cursorColor: const Color.fromARGB(255, 37, 37, 37),
                   controller: fieldText,
                   onSubmitted: (value) => validateReply(),
                   textAlign: TextAlign.center,
@@ -216,7 +217,7 @@ class CalculPageState extends State<CalculPage> {
                   decoration: const InputDecoration(
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.only(top: 30.0),
-                      hintText: '?',
+                      //hintText: '?',
                       hintStyle: TextStyle(
                         color: Colors.black,
                       )),
